@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc720099d63f88842ab504722cc78a7d, type: 3}
   m_Name: Level6
   m_EditorClassIdentifier: 
-  nameTXT: level6
-  activated: 0
-  objects: []
-  values: []
-  tiles: []
+  textAsset: {fileID: 4900000, guid: dfe26efcfce483a428d898566f9c894b, type: 3}
+  namesObjects: 02000000030000000400000005000000
+  namesValue: 02000000030000000400000005000000
+  codeValues: 04000000050000000600000007000000

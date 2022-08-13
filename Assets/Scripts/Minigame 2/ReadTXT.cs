@@ -7,7 +7,7 @@ public class ReadTXT : MonoBehaviour
 {
     public List<LevelsMG2> listLevelsMG2;//lista con los scriptableobjects
     [SerializeField] private Tile tileWin;//tile usado para ganar
-    [SerializeField] private Tile tileRock;//tile usado para la roca
+    public List<Tile> tiles;
     [SerializeField] private Tilemap tilemapObjects;//tilemap para objetos
     [HideInInspector] public LevelsMG2 levelActual;
     [HideInInspector] public int[,] matrix = new int[6, 7];//se crea matriz de 6x7
@@ -20,59 +20,24 @@ public class ReadTXT : MonoBehaviour
         string[] lines = levelActual.GetTextAsset.text.Split('\n');//almacena las lineas
         for (int i = 0; i < matrix.GetLength(0); i++)
         {//separamos los numeros por espacios
-            string[] vector = lines[i].Split(' ');
+            string[] vector = lines[i].Split(',');
             for (int j = 0; j < matrix.GetLength(1); j++)
             {//convertimos los valores del txt a int y los asignamos a la matriz
                 int.TryParse(vector[j], out matrix[i, j]);
                 //dependiendo el valor de la matriz le asignamos su tile respectivo
                 if (matrix[i, j] == 2)
-                {
-                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tileWin);
-                }
+                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tiles[0]);
                 else if (matrix[i, j] == 3)
-                {
-                    for (int x = 0; x < levelActual.GetCodeValues.Count; x++)
-                    {
-                        if (levelActual.GetCodeValues[x] == 3)
-                            tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), levelActual.GetTiles[x]);
-                    }
-                }
+                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tiles[1]);
                 else if (matrix[i, j] == 4)
-                {
-                    for (int x = 0; x < levelActual.GetCodeValues.Count; x++)
-                    {
-                        if (levelActual.GetCodeValues[x] == 4)
-                            tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), levelActual.GetTiles[x]);
-                    }
-                }
+                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tiles[2]);
                 else if (matrix[i, j] == 5)
-                {
-                    for (int x = 0; x < levelActual.GetCodeValues.Count; x++)
-                    {
-                        if (levelActual.GetCodeValues[x] == 5)
-                            tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), levelActual.GetTiles[x]);
-                    }
-                }
+                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tiles[3]);
                 else if (matrix[i, j] == 6)
-                {
-                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tileRock);
-                }
+                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tiles[4]);
                 else if (matrix[i, j] == 7)
-                {
-                    for (int x = 0; x < levelActual.GetCodeValues.Count; x++)
-                    {
-                        if (levelActual.GetCodeValues[x] == 7)
-                            tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), levelActual.GetTiles[x]);
-                    }
-                }
-                else if(matrix[i, j] == 8)
-                {
-                    for (int x = 0; x < levelActual.GetCodeValues.Count; x++)
-                    {
-                        if (levelActual.GetCodeValues[x] == 8)
-                            tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), levelActual.GetTiles[x]);
-                    }
-                }//Debug.Log("matriz[" + i + ", " + j + "] = " + matrix[i, j]);
+                    tilemapObjects.SetTile(new Vector3Int(-8 + j, 2 - i, 0), tiles[5]);
+                //Debug.Log("matriz[" + i + ", " + j + "] = " + matrix[i, j]);
             }
         }
     }
@@ -80,7 +45,7 @@ public class ReadTXT : MonoBehaviour
     {
         if (instance == null)
             instance = this;//preparamos la habilitacion del singleton
-        levelActual = listLevelsMG2[ChargeLevels.instance.GetNumberLevel() - 1];//asignamos el scriptableobject respectivo
+        levelActual = listLevelsMG2[PlayerPrefs.GetInt("level", 1) - 1];
         List<int> temp = ReadTXT.instance.levelActual.GetCodeValues;
         for (int i = 0; i < ReadTXT.instance.levelActual.GetNamesValues.Count; i++)
         {//asignamos el code values en base al nombre del valor del objeto editable escogido
@@ -93,9 +58,9 @@ public class ReadTXT : MonoBehaviour
             else if(ReadTXT.instance.levelActual.GetNamesValues[i] == LevelsMG2.RuleObjects.Empujable)
                 temp[i] = 5;
             else if(ReadTXT.instance.levelActual.GetNamesValues[i] == LevelsMG2.RuleObjects.Flotar)
-                temp[i] = 7;
+                temp[i] = 6;
             else if (ReadTXT.instance.levelActual.GetNamesValues[i] == LevelsMG2.RuleObjects.Destruir)
-                temp[i] = 8;
+                temp[i] = 7;
         }
         levelActual.SetCodeValues(temp);
         ReadFromTheFile();

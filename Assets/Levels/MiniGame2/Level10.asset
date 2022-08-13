@@ -10,12 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc720099d63f88842ab504722cc78a7d, type: 3}
-  m_Name: Level1
+  m_Name: Level10
   m_EditorClassIdentifier: 
-  textAsset: {fileID: 4900000, guid: c6a12d44bf7d8474cad64b2a328abb58, type: 3}
-  namesObjects: 0200000004000000
-  namesValue: 0200000004000000
-  codeValues: 0600000004000000
-  tiles:
-  - {fileID: 11400000, guid: 86c51fb0a6b59b34e98af0d03fbd32f1, type: 2}
-  - {fileID: 11400000, guid: 784d5566185e3ca42a52ad3b95260ad4, type: 2}
+  textAsset: {fileID: 4900000, guid: 711d7cb8ebe21644a9e90dbd0f6ebd5d, type: 3}
+  namesObjects: 0100000002000000030000000400000005000000
+  namesValue: 0100000002000000030000000400000005000000
+  codeValues: 0300000004000000050000000600000007000000

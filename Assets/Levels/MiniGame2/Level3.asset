@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc720099d63f88842ab504722cc78a7d, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: 
-  activated: 0
-  codeValues: 03000000040000000500000007000000
+  textAsset: {fileID: 4900000, guid: 36fccec7dfeb2d54d88bdd759c748ffe, type: 3}
+  namesObjects: 010000000300000004000000
+  namesValue: 010000000300000004000000
+  codeValues: 060000000300000005000000
   tiles:
   - {fileID: 11400000, guid: 22b068f848300564ba2cd1e9abe16e58, type: 2}
-  - {fileID: 11400000, guid: 6926c53aa7f67474d81f963f93354d91, type: 2}
-  - {fileID: 11400000, guid: 338131c898d445342bc3bf98e66bc44a, type: 2}
-  - {fileID: 11400000, guid: 1f47b76717e262849af0806262606906, type: 2}
-  textAsset: {fileID: 4900000, guid: 25dfe3bc15f66d845a1582009b1d6ff8, type: 3}
-  namesObjects: 01000000020000000300000004000000
-  namesValue: 01000000020000000300000004000000
+  - {fileID: 11400000, guid: 385656e5e900aa3409a8ae3eae804016, type: 2}
+  - {fileID: 11400000, guid: 784d5566185e3ca42a52ad3b95260ad4, type: 2}

@@ -114,13 +114,13 @@ public class Swipe : MonoBehaviour
         {//la matriz temporal vuelve a almacenar los valores de la matriz original, ya que los valores pudieron cambiar previamente
             newMatrix = ReadTXT.instance.matrix;
             int temp = newMatrix[_row, _queue];//almacenamos el valor en la matriz de la posicion a la q se realizara el mov
-            if (temp == 0 || temp == 1 || temp == 7)//la nueva posicion es una zona caminable?
+            if (temp == 0 || temp == 1 || temp == 6)//la nueva posicion es una zona caminable?
             {//zonas por donde puede caminar
                 if (up)
                 {//quiere subir
                     up = false;
                     if (newMatrix[_row + 1, _queue] == 0 || newMatrix[_row + 1, _queue] == 1 ||
-                        newMatrix[_row + 1, _queue] == 7)//se realiza el mov y la posicion previa tambien era una zona caminable
+                        newMatrix[_row + 1, _queue] == 6)//se realiza el mov y la posicion previa tambien era una zona caminable
                         moveDirection = MoveDirection.Up;
                     else
                     {//no se realiza el mov y se regresa al valor previo
@@ -132,7 +132,7 @@ public class Swipe : MonoBehaviour
                 {//quiere bajar
                     down = false;
                     if (newMatrix[_row - 1, _queue] == 0 || newMatrix[_row - 1, _queue] == 1 ||
-                        newMatrix[_row - 1, _queue] == 7)//se realiza el mov y la posicion previa tambien era una zona caminable
+                        newMatrix[_row - 1, _queue] == 6)//se realiza el mov y la posicion previa tambien era una zona caminable
                         moveDirection = MoveDirection.Down;
                     else
                     {//no se realiza el mov y se regresa al valor previo
@@ -144,7 +144,7 @@ public class Swipe : MonoBehaviour
                 {//quiere ir a la derecha
                     right = false;
                     if (newMatrix[_row, _queue - 1] == 0 || newMatrix[_row, _queue - 1] == 1 ||
-                        newMatrix[_row, _queue - 1] == 7)//se realiza el mov y la posicion previa tambien era una zona caminable
+                        newMatrix[_row, _queue - 1] == 6)//se realiza el mov y la posicion previa tambien era una zona caminable
                         moveDirection = MoveDirection.Right;
                     else
                     {//no se realiza el mov y se regresa al valor previo
@@ -156,7 +156,7 @@ public class Swipe : MonoBehaviour
                 {//quiere ir a la izquierda
                     left = false;
                     if (newMatrix[_row, _queue + 1] == 0 || newMatrix[_row, _queue + 1] == 1 ||
-                        newMatrix[_row, _queue + 1] == 7)//se realiza el mov y la posicion previa tambien era una zona caminable
+                        newMatrix[_row, _queue + 1] == 6)//se realiza el mov y la posicion previa tambien era una zona caminable
                         moveDirection = MoveDirection.Left;
                     else
                     {//no se realiza el mov y se regresa al valor previo
@@ -189,7 +189,7 @@ public class Swipe : MonoBehaviour
                 }
                 win = true;
             }
-            else if (temp == 3 || temp == 8)//3 = lava (te quemas); 8 = agua (te ahogas)
+            else if (temp == 3 || temp == 7)//3 = lava (te quemas); 7 = agua (te ahogas)
             {//zonas q matan
                 if (up)
                 {
@@ -214,7 +214,7 @@ public class Swipe : MonoBehaviour
                 Debug.Log("Derrota");
                 SceneManager.LoadScene(scene);//volvemos a cargar la escena, se reinicia el nivel
             }
-            else if (temp == 4 || temp == 6)//4 = muro; 6 = roca
+            else if (temp == 4)//4 = muro
             {//zonas tipo muro
                 if (up)
                 {//no se realiza el mov, asi que se regresa al valor previo
@@ -247,7 +247,20 @@ public class Swipe : MonoBehaviour
                 for (int x = 0; x < ReadTXT.instance.levelActual.GetCodeValues.Count; x++)
                 {//asignamos el tile del objeto que se movera
                     if (ReadTXT.instance.levelActual.GetCodeValues[x] == 5)
-                        ObjectToMove = ReadTXT.instance.levelActual.GetTiles[x];
+                    {
+                        if(ReadTXT.instance.levelActual.GetNamesValues[x] == LevelsMG2.RuleObjects.Ganar)
+                            ObjectToMove = ReadTXT.instance.tiles[0];
+                        else if (ReadTXT.instance.levelActual.GetNamesValues[x] == LevelsMG2.RuleObjects.Perder)
+                            ObjectToMove = ReadTXT.instance.tiles[1];
+                        else if(ReadTXT.instance.levelActual.GetNamesValues[x] == LevelsMG2.RuleObjects.Detiene)
+                            ObjectToMove = ReadTXT.instance.tiles[2];
+                        else if(ReadTXT.instance.levelActual.GetNamesValues[x] == LevelsMG2.RuleObjects.Empujable)
+                            ObjectToMove = ReadTXT.instance.tiles[3];
+                        else if(ReadTXT.instance.levelActual.GetNamesValues[x] == LevelsMG2.RuleObjects.Flotar)
+                            ObjectToMove = ReadTXT.instance.tiles[4];
+                        else if (ReadTXT.instance.levelActual.GetNamesValues[x] == LevelsMG2.RuleObjects.Destruir)
+                            ObjectToMove = ReadTXT.instance.tiles[5];
+                    }
                 }
                 if (up)
                 {
@@ -268,7 +281,7 @@ public class Swipe : MonoBehaviour
                         ReadTXT.instance.matrix[_row - 1, _queue] = 5;//cambiamos lo valores de la matriz
                         Debug.Log("Empujaste");
                     }
-                    else if (newMatrix[_row - 1, _queue] == 8)
+                    else if (newMatrix[_row - 1, _queue] == 7)
                     {//si arriba de la caja hay agua, se destruyen ambos
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue, 2 - _row, 0), null);
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue, 2 - _row + 1, 0), null);
@@ -301,7 +314,7 @@ public class Swipe : MonoBehaviour
                         ReadTXT.instance.matrix[_row + 1, _queue] = 5;//cambiamos lo valores de la matriz
                         Debug.Log("Empujaste");
                     }
-                    else if (newMatrix[_row + 1, _queue] == 8)
+                    else if (newMatrix[_row + 1, _queue] == 7)
                     {//si abajo de la caja hay agua, se destruyen ambos
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue, 2 - _row, 0), null);
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue, 2 - _row - 1, 0), null);
@@ -334,7 +347,7 @@ public class Swipe : MonoBehaviour
                         ReadTXT.instance.matrix[_row, _queue + 1] = 5;//cambiamos lo valores de la matriz
                         Debug.Log("Empujaste");
                     }
-                    else if (newMatrix[_row, _queue + 1] == 8)
+                    else if (newMatrix[_row, _queue + 1] == 7)
                     {//si a la derecha de la caja hay agua, se destruyen ambos
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue, 2 - _row, 0), null);
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue + 1, 2 - _row, 0), null);
@@ -367,7 +380,7 @@ public class Swipe : MonoBehaviour
                         ReadTXT.instance.matrix[_row, _queue - 1] = 5;//cambiamos lo valores de la matriz
                         Debug.Log("Empujaste");
                     }
-                    else if (newMatrix[_row, _queue - 1] == 8)
+                    else if (newMatrix[_row, _queue - 1] == 7)
                     {//si a la izquierda de la caja hay agua, se destruyen ambos
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue, 2 - _row, 0), null);
                         tilemapObjects.SetTile(new Vector3Int(-8 + _queue - 1, 2 - _row, 0), null);
@@ -417,9 +430,9 @@ public class Swipe : MonoBehaviour
         {//ganamos?
             win = false;
             Debug.Log("Victoria");
-            if (ChargeLevels.instance.GetNumberLevel() < ReadTXT.instance.listLevelsMG2.Count)
+            if (PlayerPrefs.GetInt("level", 1) < ReadTXT.instance.listLevelsMG2.Count)
             {//aun quedan niveles?
-                ChargeLevels.instance.NextLevel();//pasamos al siguiente nivel
+                PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level", 1) + 1);
                 SceneManager.LoadScene(scene);//volvemos a cargar la escena
             }
             else//si no hay mas niveles, completamos el minijuego
